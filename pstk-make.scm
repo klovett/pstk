@@ -97,83 +97,81 @@
 
 (define nl (string #\newline))
 
-(cond-expand
-  (chicken
-    (include "pstk-chicken-init") )
-  (else
-    (define WISH-INITRC (string-intersperse '(
-      "package require Tk"
-      "if {[package version tile] != \"\"} {"
-      "    package require tile"
-      "}"
-      ""
-      "namespace eval AutoName {"
-      "    variable c 0"
-      "    proc autoName {{result \\#\\#}} {"
-      "        variable c"
-      "        append result [incr c]"
-      "    }"
-      "    namespace export *"
-      "}"
-      ""
-      "namespace import AutoName::*"
-      ""
-      "proc callToScm {callKey args} {"
-      "    global scmVar"
-      "    set resultKey [autoName]"
-      "    puts \"(call $callKey \\\"$resultKey\\\" $args)\""
-      "    flush stdout"
-      "    vwait scmVar($resultKey)"
-      "    set result $scmVar($resultKey)"
-      "    unset scmVar($resultKey)"
-      "    set result"
-      "}"
-      ""
-      "proc tclListToScmList {l} {"
-      "    switch [llength $l] {"
-      "        0 {"
-      "            return ()"
-      "        }"
-      "        1 {"
-      "            if {[string range $l 0 0] eq \"\\#\"} {"
-      "                return $l"
-      "            }"
-      "            if {[regexp {^[0-9]+$} $l]} {"
-      "                return $l"
-      "            }"
-      "            if {[regexp {^[.[:alpha:]][^ ,\\\"\\'\\[\\]\\\\;]*$} $l]} {"
-      "                return $l"
-      "            }"
-      "            set result \\\""
-      "            append result\\"
-      "                [string map [list \\\" \\\\\\\" \\\\ \\\\\\\\] $l]"
-      "            append result \\\""
-      ""
-      "        }"
-      "        default {"
-      "            set result {}"
-      "            foreach el $l {"
-      "                append result \" \" [tclListToScmList $el]"
-      "            }"
-      "            set result [string range $result 1 end]"
-      "            return \"($result)\""
-      "        }"
-      "    }"
-      "}"
-      ""
-      "proc evalCmdFromScm {cmd {properly 0}} {"
-      "    if {[catch {"
-      "        set result [uplevel \\#0 $cmd]"
-      "    } err]} {"
-      "        puts \"(error \\\"[string map [list \\\\ \\\\\\\\ \\\" \\\\\\\"] $err]\\\")\""
-      "    } elseif $properly {"
-      "        puts \"(return [tclListToScmList $result])\""
-      "    } else {"
-      "        puts \"(return \\\"[string map [list \\\\ \\\\\\\\ \\\" \\\\\\\"] $result]\\\")\""
-      "    }"
-      "    flush stdout"
-      "}")
-    nl)) ) )
+(define WISH-INITRC #<<EOS
+  package require Tk
+  if {[package version tile] != ""} {
+      package require tile
+  }
+
+  namespace eval AutoName {
+      variable c 0
+      proc autoName {{result \#\#}} {
+          variable c
+          append result [incr c]
+      }
+      namespace export *
+  }
+
+  namespace import AutoName::*
+
+  proc callToScm {callKey args} {
+      global scmVar
+      set resultKey [autoName]
+      puts "(call $callKey \"$resultKey\" $args)"
+      flush stdout
+      vwait scmVar($resultKey)
+      set result $scmVar($resultKey)
+      unset scmVar($resultKey)
+      set result
+  }
+
+  proc tclListToScmList {l} {
+      switch [llength $l] {
+          0 {
+              return ()
+          }
+          1 {
+              if {[string range $l 0 0] eq "\#"} {
+                  return $l
+              }
+              if {[regexp {^[0-9]+$} $l]} {
+                  return $l
+              }
+              if {[regexp {^[.[:alpha:]][^ ,\"\'\[\]\\;]*$} $l]} {
+                  return $l
+              }
+              set result \"
+              append result\
+                  [string map [list \" \\\" \\ \\\\] $l]
+              append result \"
+
+          }
+          default {
+              set result {}
+              foreach el $l {
+                  append result " " [tclListToScmList $el]
+              }
+              set result [string range $result 1 end]
+              return "($result)"
+          }
+      }
+  }
+
+  proc evalCmdFromScm {cmd {properly 0}} {
+      if {[catch {
+          set result [uplevel \#0 $cmd]
+      } err]} {
+          puts "(error \"[string map [list \\ \\\\ \" \\\"] $err]\")"
+      } elseif $properly {
+          puts "(return [tclListToScmList $result])"
+      } else {
+          puts "(return \"[string map [list \\ \\\\ \" \\\"] $result]\")"
+      }
+      flush stdout
+  }
+EOS
+)
+
 
 (define *ttk-full-widget-map* '(
   "button"
@@ -195,107 +193,36 @@
 
 (define WISH-FALSE-VALUES `(0 "0" '0 "false" 'false))
 
-(cond-expand
-  (chicken
-    (define WISH-TOSTRING-MAP '(
-      ("\\" . "\\\\")
-      ("\"" . "\\\"")))
-    ;
-    (define WISH-ESCAPE-MAP `(
-      ,@WISH-TOSTRING-MAP
-      ("[" . "\\u005b")
-      ("]" . "\\]")
-      ("$" . "\\u0024")
-      ("{" . "\\{")
-      ("}" . "\\}"))) )
-  (else
-    (define WISH-TOSTRING-MAP '(
-      (#\\ . "\\\\")
-      (#\" . "\\\"")))
-    ;
-    (define WISH-ESCAPE-MAP `(
-      ,@WISH-TOSTRING-MAP
-      (#\[ . "\\u005b")
-      (#\] . "\\]")
-      (#\$ . "\\u0024")
-      (#\{ . "\\{")
-      (#\} . "\\}"))) ) )
+(define WISH-TOSTRING-MAP '(
+  ("\\" . "\\\\")
+  ("\"" . "\\\"")))
+;
+(define WISH-ESCAPE-MAP `(
+  ,@WISH-TOSTRING-MAP
+  ("[" . "\\u005b")
+  ("]" . "\\]")
+  ("$" . "\\u0024")
+  ("{" . "\\{")
+  ("}" . "\\}")))
 
 (define *wish-exit-lag* "200")
 
 ;;
 
-(cond-expand
-  (chicken
-    (define *keyword? keyword?) )
-  (else
-    (define *use-keywords?*
-      (or (not (symbol? 'text:))
-          (not (symbol? ':text))
-          (string=? "text" (symbol->string 'text:))
-          (string=? "text" (symbol->string ':text))))
-    ;
-    (define (*keyword? x)
-      (and *use-keywords?* (keyword? x))) ) )
+(define *keyword? keyword?)
 
 (define (run-program program)
   ;must not 2>&1 since doesn't match tcl results
   ;FIXME check wish stderr after stdin write (in addition to stdout)
   (process program) )
 
-(cond-expand
-  (chicken)
-  (else
-    (define (string-prefix? s1 s2)
-      (string=? (substring s2 0 (string-length s1)) s1)) ) )
+(define (string-space-split str)
+  (string-split " " str) )
 
-(cond-expand
-  (chicken
-    (define (string-space-split str)
-      (string-split " " str) ) )
-  (else
-    (define (string-char-split c s)
-      (letrec (
-        (split
-          (lambda (i k tmp res)
-            (cond
-              ((fx= i k)
-                (if (null? tmp)
-                  res
-                  (cons tmp res)) )
-              ((char=? (string-ref s i) c)
-                (split (fx+ i 1) k
-                  ""
-                  (cons tmp res)) )
-              (else
-                (split (fx+ i 1) k
-                  (string-append tmp (string (string-ref s i)))
-                  res) ) ) ) ) )
-        (reverse (split 0 (string-length s) "" '()))))
-    ;
-    (define (string-space-split str)
-      (string-char-split #\space str) ) ) )
+(define gen-symbol gensym)
 
-(cond-expand
-  (chicken
-    (define gen-symbol gensym) )
-  (else
-    (define gen-symbol
-      (let ((counter 0))
-        (lambda ()
-          (let ((sym (string-append "g" (number->string counter))))
-            (set! counter (+ counter 1))
-            (string->symbol sym))))) ) )
-
-(cond-expand
-  (chicken
-    (define (report-error x)
-      (error 'pstk x) ) )
-  (else
-    (define (report-error x)
-      (newline)
-      (display x)
-      (newline)) ) )
+(define (report-error x)
+  (error 'pstk x) )
 
 (define (report-internal-error cmd . strs)
   (report-error
@@ -322,25 +249,10 @@
       (s (symbol->string x)) )
       (string-append " -" (substring s 0 (fx- (string-length s) 1))))) )
 
-(cond-expand
-  (chicken
-    (define (form->string x)
-      (if (pair? x)
-        (string-append "(" (string-concatenate (improper-list->string x #t)) ")")
-        (->string x)) ) )
-  (else
-    (define (form->string x)
-      (cond
-        ((eq? #t x) "#t")
-        ((eq? #f x) "#f")
-        ((number? x) (number->string x))
-        ((symbol? x) (symbol->string x))
-        ((string? x) x)
-        ((null? x) "()")
-        ((pair? x)
-          (string-append "(" (string-concatenate (improper-list->string x #t)) ")"))
-        ((eof-object? x) "#<eof>")
-        (else "#<other>"))) ) )
+(define (form->string x)
+  (if (pair? x)
+    (string-append "(" (string-concatenate (improper-list->string x #t)) ")")
+    (->string x)) )
 
 (define (improper-list->string a 1st?)
   (cond
@@ -354,30 +266,6 @@
       (list (string-append " . " (form->string a))))) )
 
 ;note that map characters are always in the 00..7f code-range & UTF8 are 80..
-(cond-expand
-  (chicken)
-  (else
-    (define (string-translate* s map)
-      (letrec (
-        (s-prepend (lambda (s1 s2)
-          (cond
-            ((null? s1)
-              s2)
-            (else
-              (s-prepend (cdr s1) (cons (car s1) s2))))))
-        (s-xlate (lambda (s r)
-          (cond
-            ((null? s)
-              (reverse r))
-            (else
-              (let ((n (assv (car s) map)))
-                (cond
-                  (n
-                    (s-xlate (cdr s) (s-prepend (string->list (cdr n)) r)))
-                  (else
-                    (s-xlate (cdr s) (cons (car s) r))))))))) )
-         (list->string
-           (s-xlate (string->list s) '())))) ) )
 
 (define (wish-xstring-escape x)
   (string-translate* x WISH-ESCAPE-MAP) )
@@ -385,19 +273,8 @@
 (define (wish-string-escape x)
   (string-translate* x WISH-TOSTRING-MAP) )
 
-(cond-expand
-  (chicken
-    ;FIXME whitespace, not just " "
-    (define string-trim-left string-trim) )
-  (else
-    (define (string-trim-left str)
-      (cond
-        ((string-null? str)
-          "")
-        ((string-prefix? str " ")
-          (string-trim-left (substring str 1 (string-length str))))
-        (else
-          str))) ) )
+;FIXME whitespace, not just " "
+(define string-trim-left string-trim)
 
 (define (get-property key args . thunk)
   (cond
