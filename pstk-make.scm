@@ -101,7 +101,7 @@
   (chicken
     (include "pstk-chicken-init") )
   (else
-    (define tk-init-string (string-intersperse '(
+    (define WISH-INITRC (string-intersperse '(
       "package require Tk"
       "if {[package version tile] != \"\"} {"
       "    package require tile"
@@ -193,28 +193,28 @@
   "sizegrip"
   "treeview"))
 
-(define *wish-false-values* `(0 "0" '0 "false" 'false))
+(define WISH-FALSE-VALUES `(0 "0" '0 "false" 'false))
 
 (cond-expand
   (chicken
-    (define *wish-tostring-map* '(
+    (define WISH-TOSTRING-MAP '(
       ("\\" . "\\\\")
       ("\"" . "\\\"")))
     ;
-    (define *wish-escape-map* `(
-      ,@*wish-tostring-map*
+    (define WISH-ESCAPE-MAP `(
+      ,@WISH-TOSTRING-MAP
       ("[" . "\\u005b")
       ("]" . "\\]")
       ("$" . "\\u0024")
       ("{" . "\\{")
       ("}" . "\\}"))) )
   (else
-    (define *wish-tostring-map* '(
+    (define WISH-TOSTRING-MAP '(
       (#\\ . "\\\\")
       (#\" . "\\\"")))
     ;
-    (define *wish-escape-map* `(
-      ,@*wish-tostring-map*
+    (define WISH-ESCAPE-MAP `(
+      ,@WISH-TOSTRING-MAP
       (#\[ . "\\u005b")
       (#\] . "\\]")
       (#\$ . "\\u0024")
@@ -380,14 +380,14 @@
            (s-xlate (string->list s) '())))) ) )
 
 (define (wish-xstring-escape x)
-  (string-translate* x *wish-escape-map*) )
+  (string-translate* x WISH-ESCAPE-MAP) )
 
 (define (wish-string-escape x)
-  (string-translate* x *wish-tostring-map*) )
+  (string-translate* x WISH-TOSTRING-MAP) )
 
 (cond-expand
   (chicken
-    ;whitespace, not just " "
+    ;FIXME whitespace, not just " "
     (define string-trim-left string-trim) )
   (else
     (define (string-trim-left str)
@@ -419,7 +419,7 @@
       (apply get-property key (cddr args) thunk) ) ) )
 
 (define (tcl-true? obj)
-  (not (memv obj *wish-false-values*)) )
+  (not (memv obj WISH-FALSE-VALUES)) )
 
 (define flush-output-port flush-output)
 
@@ -517,7 +517,7 @@
     (in-callback #f)
     (callback-mutex #t)
     (ttk-widget-map '())
-    (tk-init-string *wish-initrc*)
+    (tk-init-string WISH-INITRC)
     ;
     (tk-proc #f)
     ;

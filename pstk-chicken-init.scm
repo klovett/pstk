@@ -1,7 +1,7 @@
 ;;;; pstk-chicken-init.scm
 ;;;; Kon Lovett, May '18
 
-(define *wish-initrc* #<<EOS
+(define WISH-INITRC #<<EOS
   package require Tk
   if {[package version tile] != ""} {
       package require tile
