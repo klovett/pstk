@@ -91,11 +91,11 @@
 (define *wish-debug-input?* #f)
 (define *wish-debug-output?* #f)
 
-;;
+;; Constants
 
-;;
+(define START-COMMAND "tclsh")
 
-(define nl (string #\newline))
+(define NL (string #\newline))
 
 (define WISH-INITRC #<<EOS
   package require Tk
@@ -173,7 +173,7 @@ EOS
 )
 
 
-(define *ttk-full-widget-map* '(
+(define TTK-FULL-WIDGET-MAP '(
   "button"
   "checkbutton"
   "radiobutton"
@@ -205,9 +205,9 @@ EOS
   ("{" . "\\{")
   ("}" . "\\}")))
 
-(define *wish-exit-lag* "200")
+(define WISH-EXIT-LAG "200")
 
-;;
+;; Support
 
 (define *keyword? keyword?)
 
@@ -227,8 +227,8 @@ EOS
 (define (report-internal-error cmd . strs)
   (report-error
     (apply string-append
-      "from Tcl/Tk" nl
-      (if cmd (string-append " " cmd nl) "")
+      "from Tcl/Tk" NL
+      (if cmd (string-append " " cmd NL) "")
       " -->"
       (map (lambda (s) (string-append " " s)) strs))) )
 
@@ -265,7 +265,7 @@ EOS
     (else
       (list (string-append " . " (form->string a))))) )
 
-;note that map characters are always in the 00..7f code-range & UTF8 are 80..
+;NOTE that map characters are always in the 00..7f code-range & UTF8 are 80..
 
 (define (wish-xstring-escape x)
   (string-translate* x WISH-ESCAPE-MAP) )
@@ -273,7 +273,7 @@ EOS
 (define (wish-string-escape x)
   (string-translate* x WISH-TOSTRING-MAP) )
 
-;FIXME whitespace, not just " "
+;FIXME does whitespace, not just #\space
 (define string-trim-left string-trim)
 
 (define (get-property key args . thunk)
@@ -309,6 +309,7 @@ EOS
 (define (error-unstarted-wish . args)
   (report-error
     (string-append "needs tk-start'ing'" (error-arglist args))) )
+
 ;;
 
 (define-syntax PS/TK-Indexes
@@ -377,6 +378,8 @@ EOS
   ttk/set-theme
   ttk/style
   ttk-map-widgets))
+
+;;
 
 (define (make-pstk #!key (start-program (pstk-start-program)))
   (let (
@@ -708,7 +711,7 @@ EOS
           (set! tk-is-running #f)
           (wish
             (string-append
-              "after " *wish-exit-lag* " exit")) ) )
+              "after " WISH-EXIT-LAG " exit")) ) )
       ;
       (dispatch-event
         (lambda ()
@@ -736,7 +739,7 @@ EOS
         (lambda (x)
           (cond
             ((eq? x 'all)
-              (set! ttk-widget-map *ttk-full-widget-map*))
+              (set! ttk-widget-map TTK-FULL-WIDGET-MAP))
             ((eq? x 'none)
               (set! ttk-widget-map '()))
             ((pair? x)
@@ -855,7 +858,7 @@ EOS
 
 ;;
 
-(define pstk-start-program (make-parameter "tclsh" (lambda (x)
+(define pstk-start-program (make-parameter START-COMMAND (lambda (x)
   (if (string? x)
     x
     (begin
