@@ -5,6 +5,12 @@
 
 (;export
   ;;
+  tk
+  pstk-start-program
+  pstk-start
+  pstk
+  make-pstk
+  ;;
   tk-eval
   tk-id->widget
   tk-var
@@ -59,13 +65,7 @@
   ttk/available-themes
   ttk/set-theme
   ttk/style
-  ttk-map-widgets
-  ;;
-  tk
-  pstk-start-program
-  pstk-start
-  pstk
-  make-pstk)
+  ttk-map-widgets)
 
 (import scheme chicken)
 (use
