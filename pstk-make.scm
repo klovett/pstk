@@ -83,8 +83,8 @@
   (bound-to-procedure
     ##sys#signal-hook) )
 
-(define (signal-bounds-error loc . objs)
-  (apply ##sys#signal-hook #:bounds-error loc "invalid index" objs) )
+(define (signal-operation-error loc . objs)
+  (apply ##sys#signal-hook #:bounds-error loc "invalid operation" objs) )
 
 ;internal debugging aids
 
@@ -240,6 +240,7 @@
 
 (define (run-program program)
   ;must not 2>&1 since doesn't match tcl results
+  ;FIXME check wish stderr after stdin write (in addition to stdout)
   (process program) )
 
 (cond-expand
@@ -250,10 +251,6 @@
 
 (cond-expand
   (chicken
-    #; ;UNUSED
-    (define (string-char-split c s)
-      (string-split s (string c) #t) )
-    ;
     (define (string-space-split str)
       (string-split " " str) ) )
   (else
@@ -437,9 +434,15 @@
     (string-append "needs tk-start'ing'" (error-arglist args))) )
 ;;
 
-(define-constant TOTAL_KEYWORDS 54)
+(define-syntax PS/TK-Indexes
+  (syntax-rules ()
+    ((_ (?kwd0 ...))
+      (begin
+        (define PS/TK-Symbols '(?kwd0 ...))
+        (define TOTAL-KEYWORDS (length PS/TK-Symbols))
+        (define-values (?kwd0 ...) (apply values (iota TOTAL-KEYWORDS))) ) ) ) )
 
-(define-values (
+(PS/TK-Indexes (
   tk
   ;
   tk-eval
@@ -496,9 +499,7 @@
   ttk/available-themes
   ttk/set-theme
   ttk/style
-  ttk-map-widgets)
-  ;
-  (apply values (iota TOTAL_KEYWORDS)))
+  ttk-map-widgets))
 
 (define (make-pstk #!key (start-program (pstk-start-program)))
   (let (
@@ -524,7 +525,7 @@
     (tk/wm-proc #f)
     (tk/winfo-proc #f)
     ;
-    (op-map (make-vector TOTAL_KEYWORDS #f)) )
+    (op-map (make-vector TOTAL-KEYWORDS #f)) )
     ;
     (letrec (
       ;
@@ -971,9 +972,9 @@
       (vector-set! op-map ttk-map-widgets map-ttk-widgets)
       ;
       (lambda (op)
-        (if (and (fixnum? op) (fx<= 0 op) (fx< op TOTAL_KEYWORDS))
+        (if (and (fixnum? op) (fx<= 0 op) (fx< op TOTAL-KEYWORDS))
           (vector-ref op-map op)
-          (signal-bounds-error 'pstk op) ) ) ) ) )
+          (signal-operation-error 'pstk op) ) ) ) ) )
 
 ;;
 
