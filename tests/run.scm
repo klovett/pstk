@@ -52,7 +52,7 @@
 (run-test "pstk-make")
 (run-test "pstk")
 
-;#;
+#;
 (for-each (cut run-csc-test <> *csc-options*) '(
   "pendulum"
   "text-editor"

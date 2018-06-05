@@ -10,7 +10,7 @@
  (test-depends test)
  (files
   "pstk.meta" "pstk.setup"
-  "pstk-make.scm" "pstk-chicken-gperf.scm" "pstk-chicken-init.scm"
+  "pstk-make.scm"
   "pstk.scm"
   "pstk-utils.scm" "pstk-geometry.scm"
-  "tests/run.scm" "tests/pstk-test.scm"))
+  "tests/run.scm" "tests/pstk-test.scm" "tests/pstk-make-test.scm"))
