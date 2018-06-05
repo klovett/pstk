@@ -1,0 +1,16 @@
+((author "W-D. Busch, N. Holm, K. Dickey")
+ (maintainer "[[/users/kon-lovett]]")
+ (synopsis "PS/Tk: Portable Scheme interface to Tk")
+ (license "Public Domain")
+ (doc-from-wiki)
+ (category ui)
+ (needs
+  (numbers "4.6.3")
+  (utf8 "3.4.4"))
+ (test-depends test)
+ (files
+  "pstk.meta" "pstk.setup"
+  "pstk-make.scm" "pstk-chicken-gperf.scm" "pstk-chicken-init.scm"
+  "pstk.scm"
+  "pstk-utils.scm" "pstk-geometry.scm"
+  "tests/run.scm" "tests/pstk-test.scm"))

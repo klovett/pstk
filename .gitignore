@@ -1,0 +1,15 @@
+*.ss~
+*.ss#*
+.#*.ss
+
+*.scm~
+*.scm#*
+.#*.scm
+
+# CHICKEN temps
+*.o
+*.a
+
+# macOS
+.DS_Store
+*.dylib

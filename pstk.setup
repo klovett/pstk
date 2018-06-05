@@ -1,0 +1,41 @@
+;;;; pstk.setup
+
+(compile -k -s -scrutinize -O3 -d1 "pstk-make.scm" -j pstk-make)
+(compile -c -scrutinize -O3 -d1 "pstk-make.scm" -unit pstk-make)
+(compile -s -scrutinize -O5 -d0 "pstk-make.import.scm")
+
+(install-extension
+ 'pstk-make
+ '("pstk-make.o" "pstk-make.so" "pstk-make.import.so")
+ '((version "1.0.0")
+   (static "pstk-make.o")))
+
+(compile -s -scrutinize -O3 -d1 "pstk.scm" -j pstk)
+(compile -c -scrutinize -O3 -d1 "pstk.scm" -unit pstk)
+(compile -s -scrutinize -O5 -d0 "pstk.import.scm")
+
+(install-extension
+ 'pstk
+ '("pstk.o" "pstk.so" "pstk.import.so")
+ '((version "1.3.0")
+   (static "pstk.o")))
+
+(compile -s -scrutinize -O3 -d1 "pstk-utils.scm" -j pstk-utils)
+(compile -c -scrutinize -O3 -d1 "pstk-utils.scm" -unit pstk-utils)
+(compile -s -scrutinize -O5 -d0 "pstk-utils.import.scm")
+
+(install-extension
+ 'pstk-utils
+ '("pstk-utils.o" "pstk-utils.so" "pstk-utils.import.so")
+ '((version "1.0.0")
+   (static "pstk-utils.o")))
+
+(compile -s -scrutinize -O3 -d1 "pstk-geometry.scm" -j pstk-geometry)
+(compile -c -scrutinize -O3 -d1 "pstk-geometry.scm" -unit pstk-geometry)
+(compile -s -scrutinize -O5 -d0 "pstk-geometry.import.scm")
+
+(install-extension
+ 'pstk-geometry
+ '("pstk-geometry.o" "pstk-geometry.so" "pstk-geometry.import.so")
+ '((version "1.0.0")
+   (static "pstk-geometry.o")))
