@@ -21,7 +21,7 @@
 (tk/place
   (tk 'create-widget 'checkbutton text: "Check me"
     variable: (tk-var 'cb-value))
-	x: 50 y: 10 width: 100 height: 20)
+  x: 50 y: 10 width: 100 height: 20)
 
 ;;create a set of radiobuttons, and associated variable/group
 (tk-var 'radio-value)
@@ -68,27 +68,27 @@
   (treeview 'configure yscrollcommand: `(,vsb set))
   ;set up columns in tree view
   (tk-doto treeview
-  	(column "col1" width: 70)
-  	(heading "col1" text: "Col 1")
-  	(column "col2" width: 70)
-  	(heading "col2" text: "Col 2")
-  	(column "col3" width: 60)
-  	(heading "col3" text: "Col 3") )
+    (column "col1" width: 70)
+    (heading "col1" text: "Col 1")
+    (column "col2" width: 70)
+    (heading "col2" text: "Col 2")
+    (column "col3" width: 60)
+    (heading "col3" text: "Col 3") )
   ;insert items into tree view
   (tk-doto treeview
-  	(insert "" 'end id: "item1" text: "item 1" values: "a b 1")
-  	(insert "" 'end id: "subtree1" text: "item 2" values: "c d 2")
-  	(insert "" 'end id: "subtree2" text: "item 3" values: "e f 3")
-  	(insert "subtree1" 'end text: "item 4" values: "g h 4")
-  	(insert "subtree1" 'end text: "item 5" values: "i j 5")
-  	(insert "subtree2" 'end text: "item 6" values: "k l 6")
-  	(insert "subtree2" 'end text: "item 7" values: "m n 7")
-  	(insert "subtree2" 'end text: "item 8" values: "o p 8") )
+    (insert "" 'end id: "item1" text: "item 1" values: "a b 1")
+    (insert "" 'end id: "subtree1" text: "item 2" values: "c d 2")
+    (insert "" 'end id: "subtree2" text: "item 3" values: "e f 3")
+    (insert "subtree1" 'end text: "item 4" values: "g h 4")
+    (insert "subtree1" 'end text: "item 5" values: "i j 5")
+    (insert "subtree2" 'end text: "item 6" values: "k l 6")
+    (insert "subtree2" 'end text: "item 7" values: "m n 7")
+    (insert "subtree2" 'end text: "item 8" values: "o p 8") )
   ;place tree view and scroll bar
   (tk-with tk/place
-  	(treeview x: 350 y: 10 width: 300 height: 100)
-  	(hsb x: 350 y: 110 width: 300 height: 20)
-  	(vsb x: 650 y: 10 width: 20 height: 100) )
+    (treeview x: 350 y: 10 width: 300 height: 100)
+    (hsb x: 350 y: 110 width: 300 height: 20)
+    (vsb x: 650 y: 10 width: 20 height: 100) )
   ;create a button to dump values of all widgets to stdout
   (tk/place
     (tk 'create-widget 'button text: "Show values"

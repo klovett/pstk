@@ -5,61 +5,61 @@
 
 (;export
   ;;
-	tk-eval
-	tk-id->widget
-	tk-var
-	tk-get-var
-	tk-set-var!
-	tk-start
-	tk-end
-	tk-dispatch-event
-	tk-event-loop
-	tk-wait-for-window
-	tk-wait-until-visible
-	tk-with-lock
+  tk-eval
+  tk-id->widget
+  tk-var
+  tk-get-var
+  tk-set-var!
+  tk-start
+  tk-end
+  tk-dispatch-event
+  tk-event-loop
+  tk-wait-for-window
+  tk-wait-until-visible
+  tk-with-lock
   ;
-	tk/after
-	tk/bell
-	tk/update
-	tk/clipboard
-	tk/bgerror
-	tk/bind
-	tk/bindtags
-	tk/destroy
-	tk/event
-	tk/focus
-	tk/grab
-	tk/grid
-	tk/image
-	tk/lower
-	tk/option
-	tk/pack
-	tk/place
-	tk/raise
-	tk/selection
-	tk/choose-color
-	tk/choose-directory
-	tk/dialog
-	tk/get-open-file
-	tk/get-save-file
-	tk/message-box
-	tk/focus-follows-mouse
-	tk/focus-next
-	tk/focus-prev
-	tk/popup
-	tk/appname
-	tk/caret
-	tk/scaling
-	tk/useinputmethods
-	tk/wait
-	tk/windowingsystem
-	tk/wm
-	tk/winfo
+  tk/after
+  tk/bell
+  tk/update
+  tk/clipboard
+  tk/bgerror
+  tk/bind
+  tk/bindtags
+  tk/destroy
+  tk/event
+  tk/focus
+  tk/grab
+  tk/grid
+  tk/image
+  tk/lower
+  tk/option
+  tk/pack
+  tk/place
+  tk/raise
+  tk/selection
+  tk/choose-color
+  tk/choose-directory
+  tk/dialog
+  tk/get-open-file
+  tk/get-save-file
+  tk/message-box
+  tk/focus-follows-mouse
+  tk/focus-next
+  tk/focus-prev
+  tk/popup
+  tk/appname
+  tk/caret
+  tk/scaling
+  tk/useinputmethods
+  tk/wait
+  tk/windowingsystem
+  tk/wm
+  tk/winfo
   ;
-	ttk/available-themes
-	ttk/set-theme
-	ttk/style
-	ttk-map-widgets
+  ttk/available-themes
+  ttk/set-theme
+  ttk/style
+  ttk-map-widgets
   ;;
   tk
   pstk-start-program
@@ -442,63 +442,63 @@
 (define-values (
   tk
   ;
-	tk-eval
-	tk-id->widget
-	tk-var
-	tk-get-var
-	tk-set-var!
-	tk-start
-	tk-end
-	tk-dispatch-event
-	tk-event-loop
-	tk-wait-for-window
-	tk-wait-until-visible
-	tk-with-lock
+  tk-eval
+  tk-id->widget
+  tk-var
+  tk-get-var
+  tk-set-var!
+  tk-start
+  tk-end
+  tk-dispatch-event
+  tk-event-loop
+  tk-wait-for-window
+  tk-wait-until-visible
+  tk-with-lock
   ;
-	tk/after
-	tk/bell
-	tk/update
-	tk/clipboard
-	tk/bgerror
-	tk/bind
-	tk/bindtags
-	tk/destroy
-	tk/event
-	tk/focus
-	tk/grab
-	tk/grid
-	tk/image
-	tk/lower
-	tk/option
-	tk/pack
-	tk/place
-	tk/raise
-	tk/selection
-	tk/choose-color
-	tk/choose-directory
-	tk/dialog
-	tk/get-open-file
-	tk/get-save-file
-	tk/message-box
-	tk/focus-follows-mouse
-	tk/focus-next
-	tk/focus-prev
-	tk/popup
-	tk/appname
-	tk/caret
-	tk/scaling
-	tk/useinputmethods
-	tk/wait
-	tk/windowingsystem
-	tk/wm
-	tk/winfo
+  tk/after
+  tk/bell
+  tk/update
+  tk/clipboard
+  tk/bgerror
+  tk/bind
+  tk/bindtags
+  tk/destroy
+  tk/event
+  tk/focus
+  tk/grab
+  tk/grid
+  tk/image
+  tk/lower
+  tk/option
+  tk/pack
+  tk/place
+  tk/raise
+  tk/selection
+  tk/choose-color
+  tk/choose-directory
+  tk/dialog
+  tk/get-open-file
+  tk/get-save-file
+  tk/message-box
+  tk/focus-follows-mouse
+  tk/focus-next
+  tk/focus-prev
+  tk/popup
+  tk/appname
+  tk/caret
+  tk/scaling
+  tk/useinputmethods
+  tk/wait
+  tk/windowingsystem
+  tk/wm
+  tk/winfo
   ;
-	ttk/available-themes
-	ttk/set-theme
-	ttk/style
-	ttk-map-widgets)
-	;
-	(apply values (iota TOTAL_KEYWORDS)))
+  ttk/available-themes
+  ttk/set-theme
+  ttk/style
+  ttk-map-widgets)
+  ;
+  (apply values (iota TOTAL_KEYWORDS)))
 
 (define (make-pstk #!key (start-program (pstk-start-program)))
   (let (
@@ -914,61 +914,61 @@
       (set! tk/wm-proc (make-wish-func 'wm))
       (set! tk/winfo-proc (make-wish-func 'winfo))
       ;
-			(vector-set! op-map tk-eval eval-wish)
-			(vector-set! op-map tk-id->widget id->widget)
-			(vector-set! op-map tk-var var)
-			(vector-set! op-map tk-get-var get-var)
-			(vector-set! op-map tk-set-var! set-var!)
-			(vector-set! op-map tk-start start)
-			(vector-set! op-map tk-end end-tk)
-			(vector-set! op-map tk-dispatch-event dispatch-event)
-			(vector-set! op-map tk-event-loop event-loop)
-			(vector-set! op-map tk-wait-for-window wait-for-window)
-			(vector-set! op-map tk-wait-until-visible wait-until-visible)
-			(vector-set! op-map tk-with-lock with-lock)
+      (vector-set! op-map tk-eval eval-wish)
+      (vector-set! op-map tk-id->widget id->widget)
+      (vector-set! op-map tk-var var)
+      (vector-set! op-map tk-get-var get-var)
+      (vector-set! op-map tk-set-var! set-var!)
+      (vector-set! op-map tk-start start)
+      (vector-set! op-map tk-end end-tk)
+      (vector-set! op-map tk-dispatch-event dispatch-event)
+      (vector-set! op-map tk-event-loop event-loop)
+      (vector-set! op-map tk-wait-for-window wait-for-window)
+      (vector-set! op-map tk-wait-until-visible wait-until-visible)
+      (vector-set! op-map tk-with-lock with-lock)
       ;
-			(vector-set! op-map tk/after (make-wish-func 'after))
-			(vector-set! op-map tk/bell (make-wish-func 'bell))
-			(vector-set! op-map tk/update (make-wish-func 'update))
-			(vector-set! op-map tk/clipboard (make-wish-func 'clipboard))
-			(vector-set! op-map tk/bgerror (make-wish-func 'bgerror))
-			(vector-set! op-map tk/bind (make-wish-func 'bind))
-			(vector-set! op-map tk/bindtags (make-wish-func 'bindtags))
-			(vector-set! op-map tk/destroy (make-wish-func 'destroy))
-			(vector-set! op-map tk/event (make-wish-func 'event))
-			(vector-set! op-map tk/focus (make-wish-func 'focus))
-			(vector-set! op-map tk/grab (make-wish-func 'grab))
-			(vector-set! op-map tk/grid (make-wish-func 'grid))
-			(vector-set! op-map tk/image (make-wish-func 'image))
-			(vector-set! op-map tk/lower (make-wish-func 'lower))
-			(vector-set! op-map tk/option (make-wish-func 'option))
-			(vector-set! op-map tk/pack (make-wish-func 'pack))
-			(vector-set! op-map tk/place (make-wish-func 'place))
-			(vector-set! op-map tk/raise (make-wish-func 'raise))
-			(vector-set! op-map tk/selection (make-wish-func 'selection))
-			(vector-set! op-map tk/choose-color (make-wish-func "tk_chooseColor"))
-			(vector-set! op-map tk/choose-directory (make-wish-func "tk_chooseDirectory"))
-			(vector-set! op-map tk/dialog (make-wish-func "tk_dialog"))
-			(vector-set! op-map tk/get-open-file (make-wish-func "tk_getOpenFile"))
-			(vector-set! op-map tk/get-save-file (make-wish-func "tk_getSaveFile"))
-			(vector-set! op-map tk/message-box (make-wish-func "tk_messageBox"))
-			(vector-set! op-map tk/focus-follows-mouse (make-wish-func "tk_focusFollowsMouse"))
-			(vector-set! op-map tk/focus-next (make-wish-func "tk_focusNext"))
-			(vector-set! op-map tk/focus-prev (make-wish-func "tk_focusPrev"))
-			(vector-set! op-map tk/popup (make-wish-func "tk_popup"))
-			(vector-set! op-map tk/appname (make-wish-func "tk appname"))
-			(vector-set! op-map tk/caret (make-wish-func "tk caret"))
-			(vector-set! op-map tk/scaling (make-wish-func "tk scaling"))
-			(vector-set! op-map tk/useinputmethods (make-wish-func "tk useinputmethods"))
-			(vector-set! op-map tk/wait tk/wait-proc)
-			(vector-set! op-map tk/windowingsystem (make-wish-func "tk windowingsystem"))
-			(vector-set! op-map tk/wm tk/wm-proc)
-			(vector-set! op-map tk/winfo tk/winfo-proc)
+      (vector-set! op-map tk/after (make-wish-func 'after))
+      (vector-set! op-map tk/bell (make-wish-func 'bell))
+      (vector-set! op-map tk/update (make-wish-func 'update))
+      (vector-set! op-map tk/clipboard (make-wish-func 'clipboard))
+      (vector-set! op-map tk/bgerror (make-wish-func 'bgerror))
+      (vector-set! op-map tk/bind (make-wish-func 'bind))
+      (vector-set! op-map tk/bindtags (make-wish-func 'bindtags))
+      (vector-set! op-map tk/destroy (make-wish-func 'destroy))
+      (vector-set! op-map tk/event (make-wish-func 'event))
+      (vector-set! op-map tk/focus (make-wish-func 'focus))
+      (vector-set! op-map tk/grab (make-wish-func 'grab))
+      (vector-set! op-map tk/grid (make-wish-func 'grid))
+      (vector-set! op-map tk/image (make-wish-func 'image))
+      (vector-set! op-map tk/lower (make-wish-func 'lower))
+      (vector-set! op-map tk/option (make-wish-func 'option))
+      (vector-set! op-map tk/pack (make-wish-func 'pack))
+      (vector-set! op-map tk/place (make-wish-func 'place))
+      (vector-set! op-map tk/raise (make-wish-func 'raise))
+      (vector-set! op-map tk/selection (make-wish-func 'selection))
+      (vector-set! op-map tk/choose-color (make-wish-func "tk_chooseColor"))
+      (vector-set! op-map tk/choose-directory (make-wish-func "tk_chooseDirectory"))
+      (vector-set! op-map tk/dialog (make-wish-func "tk_dialog"))
+      (vector-set! op-map tk/get-open-file (make-wish-func "tk_getOpenFile"))
+      (vector-set! op-map tk/get-save-file (make-wish-func "tk_getSaveFile"))
+      (vector-set! op-map tk/message-box (make-wish-func "tk_messageBox"))
+      (vector-set! op-map tk/focus-follows-mouse (make-wish-func "tk_focusFollowsMouse"))
+      (vector-set! op-map tk/focus-next (make-wish-func "tk_focusNext"))
+      (vector-set! op-map tk/focus-prev (make-wish-func "tk_focusPrev"))
+      (vector-set! op-map tk/popup (make-wish-func "tk_popup"))
+      (vector-set! op-map tk/appname (make-wish-func "tk appname"))
+      (vector-set! op-map tk/caret (make-wish-func "tk caret"))
+      (vector-set! op-map tk/scaling (make-wish-func "tk scaling"))
+      (vector-set! op-map tk/useinputmethods (make-wish-func "tk useinputmethods"))
+      (vector-set! op-map tk/wait tk/wait-proc)
+      (vector-set! op-map tk/windowingsystem (make-wish-func "tk windowingsystem"))
+      (vector-set! op-map tk/wm tk/wm-proc)
+      (vector-set! op-map tk/winfo tk/winfo-proc)
       ;
-			(vector-set! op-map ttk/available-themes ttk-available-themes)
-			(vector-set! op-map ttk/set-theme (make-wish-func "ttk::style theme use"))
-			(vector-set! op-map ttk/style (make-wish-func "ttk::style"))
-			(vector-set! op-map ttk-map-widgets map-ttk-widgets)
+      (vector-set! op-map ttk/available-themes ttk-available-themes)
+      (vector-set! op-map ttk/set-theme (make-wish-func "ttk::style theme use"))
+      (vector-set! op-map ttk/style (make-wish-func "ttk::style"))
+      (vector-set! op-map ttk-map-widgets map-ttk-widgets)
       ;
       (lambda (op)
         (if (and (fixnum? op) (fx<= 0 op) (fx< op TOTAL_KEYWORDS))
