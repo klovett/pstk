@@ -209,8 +209,6 @@ EOS
 
 ;; Support
 
-(define *keyword? keyword?)
-
 (define (run-program program)
   ;must not 2>&1 since doesn't match tcl results
   ;FIXME check wish stderr after stdin write (in addition to stdout)
@@ -218,8 +216,6 @@ EOS
 
 (define (string-space-split str)
   (string-split " " str) )
-
-(define gen-symbol gensym)
 
 (define (report-error x)
   (error 'pstk x) )
@@ -234,7 +230,7 @@ EOS
 
 (define (option? x)
   (or
-    (*keyword? x)
+    (keyword? x)
     (and
       (symbol? x)
       (let* (
@@ -243,7 +239,7 @@ EOS
         (char=? #\: (string-ref s (fx- n 1)))))) )
 
 (define (make-option-string x)
-  (if (*keyword? x)
+  (if (keyword? x)
     (string-append " -" (keyword->string x))
     (let (
       (s (symbol->string x)) )
@@ -469,7 +465,7 @@ EOS
                     (let* (
                       (widget-type (widget-name (car args)))
                       (id-prefix (if (string=? id ".") "" id))
-                      (id-suffix (form->string (gen-symbol)))
+                      (id-suffix (form->string (gensym 'w)))
                       (new-id (string-append id-prefix "." id-suffix))
                       (options (cdr args)) )
                       (eval-wish
@@ -537,7 +533,7 @@ EOS
                 (l
                   (memq lambda-term inverse-commands-invoked-by-tk))
                 (keystr
-                  (if l (form->string (cadr l)) (symbol->string (gen-symbol)))) )
+                  (if l (form->string (cadr l)) (symbol->string (gensym 't)))) )
                 (if (not l)
                   (let (
                     (key (string->symbol keystr)) )
