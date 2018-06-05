@@ -982,7 +982,8 @@
   (if (string? x)
     x
     (begin
-      (warning 'pstk-start-program "invalid pstk command" x))))))
+      (warning 'pstk-start-program "invalid pstk command" x)
+      (pstk-start-program))))))
 
 ;;
 
